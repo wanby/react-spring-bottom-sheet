@@ -556,7 +556,7 @@ export const BottomSheet = React.forwardRef<
       minSnap: minSnapRef.current,
       topOffset: topOffsetRef.current,
       immediate: true,
-      config: { velocity: 2 },
+      config: { velocity },
     })
     // */
 
