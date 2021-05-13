@@ -141,6 +141,11 @@ export type Props = {
    * Open immediatly instead of initially animating from a closed => open state, useful if the bottom sheet is visible by default and the animation would be distracting
    */
   skipInitialTransition?: boolean
+
+  /**
+   * Top offset to set a new maxHeight
+   */
+  topOffset?: number
 } & Omit<React.PropsWithoutRef<JSX.IntrinsicElements['div']>, 'children'>
 
 export interface RefHandles {

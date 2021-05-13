@@ -51,6 +51,7 @@ export const BottomSheet = React.forwardRef<
     children,
     sibling,
     className,
+    topOffset,
     footer,
     header,
     open: _open,
@@ -143,14 +144,16 @@ export const BottomSheet = React.forwardRef<
   const maxSnapRef = useRef(maxSnap)
   const findSnapRef = useRef(findSnap)
   const defaultSnapRef = useRef(0)
+  const topOffsetRef = useRef(0)
   // Sync the refs with current state, giving the spring full control over when to respond to changes
   useLayoutEffect(() => {
     maxHeightRef.current = maxHeight
     maxSnapRef.current = maxSnap
     minSnapRef.current = minSnap
+    topOffsetRef.current = topOffset
     findSnapRef.current = findSnap
     defaultSnapRef.current = findSnap(getDefaultSnap)
-  }, [findSnap, getDefaultSnap, maxHeight, maxSnap, minSnap])
+  }, [findSnap, getDefaultSnap, maxHeight, maxSnap, minSnap, topOffset])
 
   // New utility for using events safely
   const asyncSet = useCallback<typeof set>(
@@ -288,6 +291,7 @@ export const BottomSheet = React.forwardRef<
             // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
             minSnap: defaultSnapRef.current,
             immediate: true,
+            topOffset: topOffsetRef.current,
           })
         },
         [asyncSet]
@@ -319,6 +323,7 @@ export const BottomSheet = React.forwardRef<
           // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
           minSnap: defaultSnapRef.current,
           immediate: true,
+          topOffset: topOffsetRef.current
         })
       }, [asyncSet]),
       openSmoothly: useCallback(async () => {
@@ -330,6 +335,7 @@ export const BottomSheet = React.forwardRef<
           // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
           minSnap: defaultSnapRef.current,
           immediate: true,
+          topOffset: topOffsetRef.current
         })
 
         heightRef.current = defaultSnapRef.current
@@ -342,6 +348,7 @@ export const BottomSheet = React.forwardRef<
           // Using defaultSnapRef instead of minSnapRef to avoid animating `height` on open
           minSnap: defaultSnapRef.current,
           immediate: prefersReducedMotion.current,
+          topOffset: topOffsetRef.current,
         })
       }, [asyncSet, prefersReducedMotion]),
       snapSmoothly: useCallback(
@@ -356,6 +363,7 @@ export const BottomSheet = React.forwardRef<
             maxSnap: maxSnapRef.current,
             minSnap: minSnapRef.current,
             immediate: prefersReducedMotion.current,
+            topOffset: topOffsetRef.current,
             config: { velocity: context.velocity },
           })
         },
@@ -371,6 +379,7 @@ export const BottomSheet = React.forwardRef<
           maxHeight: maxHeightRef.current,
           maxSnap: maxSnapRef.current,
           minSnap: minSnapRef.current,
+          topOffset: topOffsetRef.current,
           immediate:
             resizeSourceRef.current === 'element'
               ? prefersReducedMotion.current
@@ -545,8 +554,9 @@ export const BottomSheet = React.forwardRef<
       maxHeight: maxHeightRef.current,
       maxSnap: maxSnapRef.current,
       minSnap: minSnapRef.current,
+      topOffset: topOffsetRef.current,
       immediate: true,
-      config: { velocity },
+      config: { velocity: 2 },
     })
     // */
 

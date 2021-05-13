@@ -19,9 +19,9 @@ export function useSpringInterpolations({
   // @TODO the ts-ignore comments are because the `extrapolate` param isn't in the TS defs for some reason
   const interpolateBorderRadius = interpolate(
     // @ts-expect-error
-    [spring.y, spring.maxHeight],
-    (y, maxHeight) => {
-      return `${Math.round(clamp(maxHeight - y, 0, 16))}px`
+    [spring.y, spring.maxHeight, spring.topOffset],
+    (y, maxHeight, topOffset) => {
+      return `${Math.round(clamp(maxHeight - y - (topOffset || 0), 0, 16))}px`
     }
   )
 
