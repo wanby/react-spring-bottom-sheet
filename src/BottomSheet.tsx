@@ -513,19 +513,19 @@ export const BottomSheet = React.forwardRef<
               rawY,
               minSnapRef.current,
               maxSnapRef.current * 2,
-              0.55
+              0.85
             )
           : rubberbandIfOutOfBounds(
               rawY,
               minSnapRef.current / 2,
               maxSnapRef.current,
-              0.55
+              0.85
             )
         : rubberbandIfOutOfBounds(
             rawY,
             onDismiss ? 0 : minSnapRef.current,
             maxSnapRef.current,
-            0.55
+            0.85
           )
       : predictedY
 
