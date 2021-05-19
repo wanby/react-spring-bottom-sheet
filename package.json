@@ -26,7 +26,8 @@
     "lint": "eslint . --ext ts,tsx,js,jsx --max-warnings 0 && tsc",
     "prepublishOnly": "npm run build:dist",
     "start": "next start",
-    "test": "npm run prepublishOnly && npm run build"
+    "test": "npm run prepublishOnly && npm run build",
+    "prettierAll": "prettier --write '**/*.{md,json,js,html,yml}'"
   },
   "sideEffects": [
     "*.css"

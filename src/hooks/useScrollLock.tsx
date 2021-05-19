@@ -1,4 +1,4 @@
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from './body-scroll-lock'
 import { useDebugValue, useEffect, useRef } from 'react'
 
 /**
@@ -46,6 +46,7 @@ export function useScrollLock({
       activate: () => {
         if (active) return
         active = true
+        clearAllBodyScrollLocks();
         disableBodyScroll(target, {
           allowTouchMove: (el) => {
             // el.closest('[data-body-scroll-lock-ignore]')
