@@ -95,6 +95,14 @@ const ScrollableFixturePage: NextPage<GetStaticProps> = ({
             maxHeight / 4,
             maxHeight * 0.6,
           ]}
+          springConfig={{
+            mass: 10,
+            tension: 500,
+            friction: 50,
+            precision: 0.1,
+            velocity: 50,
+            clamp: true,
+          }}
         >
           <SheetContent>
             <div className="grid grid-cols-3 w-full gap-4">

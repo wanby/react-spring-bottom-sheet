@@ -52,6 +52,7 @@ export const BottomSheet = React.forwardRef<
     sibling,
     className,
     topOffset,
+    springConfig,
     footer,
     header,
     open: _open,
@@ -144,16 +145,15 @@ export const BottomSheet = React.forwardRef<
   const maxSnapRef = useRef(maxSnap)
   const findSnapRef = useRef(findSnap)
   const defaultSnapRef = useRef(0)
-  const topOffsetRef = useRef(0)
+  const topOffsetRef = useRef(topOffset || 0)
   // Sync the refs with current state, giving the spring full control over when to respond to changes
   useLayoutEffect(() => {
     maxHeightRef.current = maxHeight
     maxSnapRef.current = maxSnap
     minSnapRef.current = minSnap
-    topOffsetRef.current = topOffset
     findSnapRef.current = findSnap
     defaultSnapRef.current = findSnap(getDefaultSnap)
-  }, [findSnap, getDefaultSnap, maxHeight, maxSnap, minSnap, topOffset])
+  }, [findSnap, getDefaultSnap, maxHeight, maxSnap, minSnap])
 
   // New utility for using events safely
   const asyncSet = useCallback<typeof set>(
@@ -174,6 +174,8 @@ export const BottomSheet = React.forwardRef<
               friction,
               friction + (friction - friction * velocity)
             ),
+
+            ...springConfig,
           },
           onRest: (...args) => {
             resolve(...args)
