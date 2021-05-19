@@ -53,6 +53,7 @@ export const BottomSheet = React.forwardRef<
     className,
     topOffset,
     springConfig,
+    ignoreLockClasses,
     footer,
     header,
     open: _open,
@@ -112,6 +113,7 @@ export const BottomSheet = React.forwardRef<
     targetRef: scrollRef,
     enabled: ready && scrollLocking,
     reserveScrollBarGap,
+    ignoreLockClasses: !!ignoreLockClasses ? Array.isArray(ignoreLockClasses) ? ignoreLockClasses : [ignoreLockClasses] : [],
   })
   const ariaHiderRef = useAriaHider({
     targetRef: containerRef,

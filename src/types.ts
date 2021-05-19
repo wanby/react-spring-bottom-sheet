@@ -152,6 +152,11 @@ export type Props = {
    */
   springConfig?: any
 
+  /**
+   * Ignore to be locked
+   */
+  ignoreLockClasses?: string | string[]
+
 } & Omit<React.PropsWithoutRef<JSX.IntrinsicElements['div']>, 'children'>
 
 export interface RefHandles {

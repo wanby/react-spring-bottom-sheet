@@ -16,10 +16,12 @@ export function useScrollLock({
   targetRef,
   enabled,
   reserveScrollBarGap,
+  ignoreLockClasses,
 }: {
   targetRef: React.RefObject<Element>
   enabled: boolean
-  reserveScrollBarGap: boolean
+  reserveScrollBarGap: boolean,
+  ignoreLockClasses: string[],
 }) {
   const ref = useRef<{ activate: () => void; deactivate: () => void }>({
     activate: () => {
@@ -45,7 +47,13 @@ export function useScrollLock({
         if (active) return
         active = true
         disableBodyScroll(target, {
-          allowTouchMove: (el) => el.closest('[data-body-scroll-lock-ignore]'),
+          allowTouchMove: (el) => {
+            // el.closest('[data-body-scroll-lock-ignore]')
+            if (ignoreLockClasses.length === 0) return false;
+            return ignoreLockClasses.some((className) => {
+              return className && className.length && el.closest(`.${className}`)
+            })
+          },
           reserveScrollBarGap,
         })
       },
@@ -55,7 +63,7 @@ export function useScrollLock({
         enableBodyScroll(target)
       },
     }
-  }, [enabled, targetRef, reserveScrollBarGap])
+  }, [enabled, targetRef, reserveScrollBarGap, ignoreLockClasses])
 
   return ref
 }
