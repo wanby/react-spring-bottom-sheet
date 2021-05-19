@@ -131,6 +131,10 @@ export declare type Props = {
      * Top offset to set a new maxHeight
      */
     topOffset?: number;
+    /**
+     * Spring config
+     */
+    springConfig?: any;
 } & Omit<React.PropsWithoutRef<JSX.IntrinsicElements['div']>, 'children'>;
 export interface RefHandles {
     /**

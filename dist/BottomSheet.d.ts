@@ -23,4 +23,5 @@ export declare const BottomSheet: React.ForwardRefExoticComponent<{
     reserveScrollBarGap?: boolean;
     skipInitialTransition?: boolean;
     topOffset?: number;
+    springConfig?: any;
 } & Omit<Pick<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "key" | keyof React.HTMLAttributes<HTMLDivElement>>, "children"> & React.RefAttributes<RefHandles>>;
