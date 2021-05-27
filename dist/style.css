@@ -151,7 +151,6 @@
 [data-rsbs-content] {
   /* The overflow hidden is to ensure any margin on child nodes are included when the resize observer is measuring the height */
   overflow: hidden;
-  height: 100%;
 }
 
 [data-rsbs-footer] {

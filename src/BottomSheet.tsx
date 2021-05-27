@@ -634,7 +634,7 @@ export const BottomSheet = React.forwardRef<
         )}
         <div key="scroll" data-rsbs-scroll ref={scrollRef}>
           <div data-rsbs-content ref={contentRef}>
-            {children}
+            {children || (<div style={{position: "relative", height: "1000", overflow: "hidden"}}></div>)}
           </div>
         </div>
         {footer && (
