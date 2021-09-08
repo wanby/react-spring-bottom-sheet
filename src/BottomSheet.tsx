@@ -71,6 +71,7 @@ export const BottomSheet = React.forwardRef<
     onSpringCancel,
     onSpringEnd,
     reserveScrollBarGap = blocking,
+    expandOnContentDrag = false,
     ...props
   },
   forwardRef
@@ -105,6 +106,7 @@ export const BottomSheet = React.forwardRef<
   // Keeps track of the current height, or the height transitioning to
   const heightRef = useRef(0)
   const resizeSourceRef = useRef<ResizeSource>()
+  const preventScrollingRef = useRef(false)
 
   const prefersReducedMotion = useReducedMotion()
 
@@ -122,8 +124,8 @@ export const BottomSheet = React.forwardRef<
   const focusTrapRef = useFocusTrap({
     targetRef: containerRef,
     fallbackRef: overlayRef,
-    initialFocusRef,
-    enabled: ready && blocking,
+    initialFocusRef: initialFocusRef || undefined,
+    enabled: ready && blocking && initialFocusRef !== false,
   })
 
   const { minSnap, maxSnap, maxHeight, findSnap } = useSnapPoints({
@@ -458,8 +460,40 @@ export const BottomSheet = React.forwardRef<
     [send]
   )
 
+  useEffect(() => {
+    const elem = scrollRef.current
+
+    const preventScrolling = e => {
+      if (preventScrollingRef.current) {
+        e.preventDefault()
+      }
+    }
+
+    const preventSafariOverscroll = e => {
+      if (elem.scrollTop < 0) {
+        requestAnimationFrame(() => {
+          elem.style.overflow = 'hidden'
+          elem.scrollTop = 0
+          elem.style.removeProperty('overflow')
+        })
+        e.preventDefault()
+      }
+    }
+
+    if (expandOnContentDrag) {
+      elem.addEventListener('scroll', preventScrolling)
+      elem.addEventListener('touchmove', preventScrolling)
+      elem.addEventListener('touchstart', preventSafariOverscroll)
+    }
+    return () => {
+      elem.removeEventListener('scroll', preventScrolling)
+      elem.removeEventListener('touchmove', preventScrolling)
+      elem.removeEventListener('touchstart', preventSafariOverscroll)
+    }
+  }, [expandOnContentDrag, scrollRef])
+
   const handleDrag = ({
-    args: [{ closeOnTap = false } = {}] = [],
+    args: [{ closeOnTap = false, isContentDragging = false } = {}] = [],
     cancel,
     direction: [, direction],
     down,
@@ -532,6 +566,20 @@ export const BottomSheet = React.forwardRef<
             0.85
           )
       : predictedY
+
+      if (expandOnContentDrag && isContentDragging) {
+        if (newY >= maxSnapRef.current) {
+          newY = maxSnapRef.current
+        }
+  
+        if (memo === maxSnapRef.current && scrollRef.current.scrollTop > 0) {
+          newY = maxSnapRef.current
+        }
+  
+        preventScrollingRef.current = newY < maxSnapRef.current;
+      } else {
+        preventScrollingRef.current = false
+      }
 
     if (first) {
       send('DRAG')
@@ -632,7 +680,7 @@ export const BottomSheet = React.forwardRef<
             {header}
           </div>
         )}
-        <div key="scroll" data-rsbs-scroll ref={scrollRef}>
+        <div key="scroll" data-rsbs-scroll ref={scrollRef} {...(expandOnContentDrag ? bind({ isContentDragging: true }) : {})}>
           <div data-rsbs-content ref={contentRef}>
             {children || (<div style={{position: "relative", height: "1000", overflow: "hidden"}}></div>)}
           </div>

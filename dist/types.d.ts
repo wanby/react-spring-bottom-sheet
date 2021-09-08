@@ -85,8 +85,11 @@ export declare type Props = {
      * @default true
      */
     header?: React.ReactNode | false;
-    /** A reference to the element that should be focused. By default it'll be the first interactive element. */
-    initialFocusRef?: React.RefObject<HTMLElement>;
+    /**
+     * A reference to the element that should be focused. By default it'll be the first interactive element.
+     * Set to false to disable keyboard focus when opening.
+     */
+    initialFocusRef?: React.RefObject<HTMLElement> | false;
     /**
      * Handler that is called when the user presses *esc*, clicks outside the dialog or drags the sheet to the bottom of the display.
      */
@@ -127,6 +130,11 @@ export declare type Props = {
      * Open immediatly instead of initially animating from a closed => open state, useful if the bottom sheet is visible by default and the animation would be distracting
      */
     skipInitialTransition?: boolean;
+    /**
+     * Expand the bottom sheet on the content dragging. By default user can expand the bottom sheet only by dragging the header or overlay. This option enables expanding on dragging the content.
+     * @default expandOnContentDrag === false
+     */
+    expandOnContentDrag?: boolean;
     /**
      * Top offset to set a new maxHeight
      */

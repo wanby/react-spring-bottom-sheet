@@ -11,7 +11,7 @@ export declare const BottomSheet: React.ForwardRefExoticComponent<{
     className?: string;
     footer?: React.ReactNode;
     header?: React.ReactNode;
-    initialFocusRef?: React.RefObject<HTMLElement>;
+    initialFocusRef?: false | React.RefObject<HTMLElement>;
     onDismiss?: () => void;
     blocking?: boolean;
     maxHeight?: number;
@@ -20,6 +20,7 @@ export declare const BottomSheet: React.ForwardRefExoticComponent<{
     defaultSnap?: number | ((props: import("./types").defaultSnapProps) => number);
     reserveScrollBarGap?: boolean;
     skipInitialTransition?: boolean;
+    expandOnContentDrag?: boolean;
     topOffset?: number;
     springConfig?: any;
     ignoreLockClasses?: string | string[];
